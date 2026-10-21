@@ -40,14 +40,34 @@ public class ProdutoView {
     }
 
     // Pede o preço do produto. Aceita vírgula ou ponto (ex.: 59,90 ou 59.90).
-    // Se não for um número, devolve -1 para o Model recusar.
+    // Se o texto não for um número, pergunta de novo.
+    // (A View só confere o formato; se o preço é válido quem decide é o Model.)
     public double pedirPreco() {
-        System.out.print("Preço do produto: ");
-        String texto = teclado.nextLine().replace(",", ".");
-        try {
-            return Double.parseDouble(texto.trim());
-        } catch (NumberFormatException erro) {
-            return -1;
+        while (true) {
+            System.out.print("Preço do produto: ");
+            String texto = teclado.nextLine().replace(",", ".");
+            try {
+                double preco = Double.parseDouble(texto.trim());
+                if (Double.isFinite(preco)) {
+                    return preco;
+                }
+            } catch (NumberFormatException erro) {
+                // Não é número: cai na mensagem abaixo e pergunta de novo
+            }
+            System.out.println("Digite um número (ex.: 59,90).");
+        }
+    }
+
+    // Pede a quantidade em estoque. Se o texto não for um número inteiro, pergunta de novo.
+    public int pedirEstoque() {
+        while (true) {
+            System.out.print("Quantidade em estoque: ");
+            String texto = teclado.nextLine();
+            try {
+                return Integer.parseInt(texto.trim());
+            } catch (NumberFormatException erro) {
+                System.out.println("Digite um número inteiro (ex.: 10).");
+            }
         }
     }
 
@@ -55,7 +75,8 @@ public class ProdutoView {
     public void exibirProduto(Produto produto) {
         System.out.println("ID: " + produto.getId()
                 + " | Nome: " + produto.getNome()
-                + " | Preço: R$ " + String.format("%.2f", produto.getPreco()));
+                + " | Preço: R$ " + String.format("%.2f", produto.getPreco())
+                + " | Estoque: " + produto.getEstoque());
     }
 
     // Mostra a lista de produtos que o Controller entregou

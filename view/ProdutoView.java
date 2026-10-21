@@ -58,11 +58,25 @@ public class ProdutoView {
         }
     }
 
+    // Pede a quantidade em estoque. Se o texto não for um número inteiro, pergunta de novo.
+    public int pedirEstoque() {
+        while (true) {
+            System.out.print("Quantidade em estoque: ");
+            String texto = teclado.nextLine();
+            try {
+                return Integer.parseInt(texto.trim());
+            } catch (NumberFormatException erro) {
+                System.out.println("Digite um número inteiro (ex.: 10).");
+            }
+        }
+    }
+
     // Mostra um único produto
     public void exibirProduto(Produto produto) {
         System.out.println("ID: " + produto.getId()
                 + " | Nome: " + produto.getNome()
-                + " | Preço: R$ " + String.format("%.2f", produto.getPreco()));
+                + " | Preço: R$ " + String.format("%.2f", produto.getPreco())
+                + " | Estoque: " + produto.getEstoque());
     }
 
     // Mostra a lista de produtos que o Controller entregou

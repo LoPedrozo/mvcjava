@@ -23,9 +23,10 @@ public class ProdutoController {
     public void cadastrar() {
         String nome = view.pedirNome();
         double preco = view.pedirPreco();
+        int estoque = view.pedirEstoque();
 
         try {
-            Produto.salvar(nome, preco);
+            Produto.salvar(nome, preco, estoque);
             view.mostrarMensagem("Produto cadastrado com sucesso!");
         } catch (IllegalArgumentException erro) {
             // O Model diz qual regra foi quebrada; a View só mostra

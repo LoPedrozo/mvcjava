@@ -39,23 +39,23 @@ public class Produto {
     }
 
     // Regra de negócio: valida os dados e salva o produto na lista.
-    // Retorna true se salvou e false se os dados forem inválidos.
-    public static boolean salvar(String nome, double preco) {
+    // Se algum dado for inválido, lança um erro com a mensagem da regra quebrada.
+    // As mensagens ficam aqui porque as regras são do Model.
+    public static void salvar(String nome, double preco) {
         // O nome não pode ser vazio
         if (nome == null || nome.trim().isEmpty()) {
-            return false;
+            throw new IllegalArgumentException("o nome não pode ser vazio.");
         }
 
         // O preço não pode ser negativo
         if (preco < 0) {
-            return false;
+            throw new IllegalArgumentException("o preço não pode ser negativo.");
         }
 
         // Dados válidos: cria o produto com o próximo id e guarda na lista
         Produto produto = new Produto(proximoId, nome.trim(), preco);
         listaProdutos.add(produto);
         proximoId = proximoId + 1;
-        return true;
     }
 
     // Retorna a lista com todos os produtos cadastrados

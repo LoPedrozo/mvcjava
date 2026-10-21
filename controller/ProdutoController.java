@@ -24,12 +24,12 @@ public class ProdutoController {
         String nome = view.pedirNome();
         double preco = view.pedirPreco();
 
-        boolean salvou = Produto.salvar(nome, preco);
-
-        if (salvou) {
+        try {
+            Produto.salvar(nome, preco);
             view.mostrarMensagem("Produto cadastrado com sucesso!");
-        } else {
-            view.mostrarMensagem("Erro: nome não pode ser vazio e preço não pode ser negativo.");
+        } catch (IllegalArgumentException erro) {
+            // O Model diz qual regra foi quebrada; a View só mostra
+            view.mostrarMensagem("Erro: " + erro.getMessage());
         }
     }
 
